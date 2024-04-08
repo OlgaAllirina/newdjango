@@ -1,4 +1,7 @@
+from django.core.paginator import Paginator
+from django.http import HttpResponse
 from django.shortcuts import render
+from django.urls import reverse
 
 DATA = {
     'omlet': {
@@ -19,12 +22,44 @@ DATA = {
     # можете добавить свои рецепты ;)
 }
 
+
 # Напишите ваш обработчик. Используйте DATA как источник данных
 # Результат - render(request, 'calculator/index.html', context)
 # В качестве контекста должен быть передан словарь с рецептом:
-# context = {
-#   'recipe': {
-#     'ингредиент1': количество1,
-#     'ингредиент2': количество2,
-#   }
-# }
+def home_view(request):
+    template_name = 'calculator/index.html'
+    # впишите правильные адреса страниц, используя
+    # функцию `reverse`
+    pages = {
+        'Главная страница': reverse('home'),
+        'РЕЦЕПТЫ': reverse('recipes'),
+        #'КАЛЬКУЛЯТОР': reverse('calculator'),
+    }
+    context = {
+        'pages': pages
+    }
+    return render(request, template_name, context)
+
+
+def recipes_view(request):
+    template_name = 'calculator/recipes.html'
+    recipes = DATA.keys()
+    context = {
+        'recipes': recipes
+    }
+    return render(request, template_name, context)
+
+
+def recipe_view(request, recipe):
+    template_name = 'calculator/recipe.html'
+    num = int(request.GET.get("servings", 1))
+    name = recipe
+    rec = DATA[recipe].copy()
+    for k, v in rec.items():
+        rec[k] = round(v * num, 2)
+    context = {
+        'name': name,
+        'recipe': rec,
+        'num': num,
+    }
+    return render(request, template_name, context)
