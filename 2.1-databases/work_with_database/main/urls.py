@@ -20,7 +20,11 @@ import phones.views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    # главная страница
     path('', phones.views.index),
+    # весь каталог
     path('catalog/', phones.views.show_catalog, name='catalog'),
+    # каталог с учётом порядка отображения товаров:
+    # по названию в алфавитном порядке и по цене по убыванию и по возрастанию
     path('catalog/<slug:slug>/', phones.views.show_product, name='phone'),
 ]
