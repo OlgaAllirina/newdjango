@@ -18,8 +18,8 @@ class Command(BaseCommand):
             phone = Phone(
                 name=phone['name'],
                 image=phone['image'],
-                price=phone['price'],
-                release_date=phone['release_date'],
+                price=int(phone['price']),
+                release_data=phone['release_date'],
                 lte_exists=phone['lte_exists'],
                 slug=phone['name'].lower().replace(' ', '_')
             )
