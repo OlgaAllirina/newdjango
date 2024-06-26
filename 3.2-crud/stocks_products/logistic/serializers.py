@@ -41,4 +41,4 @@ class StockSerializer(serializers.ModelSerializer):
                     'price': position['price']
                 })
         return stock
-        return stock
+        
